@@ -1,12 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//í”Œë ˆì´ì–´ ì›€ì§ì„ ë° ì¡°ì‘ì„ ìœ„í•œ í´ë˜ìŠ¤ì…ë‹ˆë‹¤.
 public class PlayerController : MonoBehaviour
 {
     public float horizontalInput;
     public float speed = 10.0f;
     public float xRange = 10.0f;
+
+    // íˆ¬ì‚¬ì²´ ë³€ìˆ˜ ìƒì„±
+    public GameObject projectilePrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -17,8 +21,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ÁÂ¿ì °Å¸® Á¦ÇÑ
-        // ÀÏÁ¤ ¹üÀ§¸¦ ¹ş¾î³ª¸é ´Ù½Ã ÁöÁ¤ÇØÁØ ¹üÀ§·Î µ¹¾Æ°¡°Ô ÇÏ´Â ¹æ½ÄÀÔ´Ï´Ù.
+        // ì¢Œìš° ê±°ë¦¬ ì œí•œ
+        // ì¼ì • ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ë©´ ë‹¤ì‹œ ì§€ì •í•´ì¤€ ë²”ìœ„ë¡œ ëŒì•„ê°€ê²Œ í•˜ëŠ” ë°©ì‹ì…ë‹ˆë‹¤.
         if (transform.position.x < -xRange)
         {
             transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
@@ -28,8 +32,22 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
         }
         horizontalInput = Input.GetAxis("Horizontal");
-        // ÀÔ·ÂÀ» Time.deltaTime ¸¦ »ç¿ëÇØ¼­ ÇÁ·¹ÀÓ ´ÜÀ§°¡ ¾Æ´Ñ ½Ã°£ ´ÜÀ§·Î ¹Ş½À´Ï´Ù.
-        // ÀÌ·¸°Ô ÇØ¾ß ÄÄÇ»ÅÍ »ç¾ç¿¡ »ó°ü¾øÀÌ ¸ğµÎ°¡ ÀÏÁ¤ÇÑ ¼Óµµ·Î ¿òÁ÷¿¡ µË´Ï´Ù.
+        // ì…ë ¥ì„ Time.deltaTime ë¥¼ ì‚¬ìš©í•´ì„œ í”„ë ˆì„ ë‹¨ìœ„ê°€ ì•„ë‹Œ ì‹œê°„ ë‹¨ìœ„ë¡œ ë°›ìŠµë‹ˆë‹¤.
+        // ì´ë ‡ê²Œ í•´ì•¼ ì»´í“¨í„° ì‚¬ì–‘ì— ìƒê´€ì—†ì´ ëª¨ë‘ê°€ ì¼ì •í•œ ì†ë„ë¡œ ì›€ì§ì— ë©ë‹ˆë‹¤.
         transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
+
+        // í‚¤ ì…ë ¥ê°’ ê°€ì ¸ì˜¤ê¸°
+        //  - Input.GetKey     : í‚¤ê°€ ëˆŒë ¸ì„ ë•Œ
+        //  - Input.GetKeyDown : í‚¤ê°€ ëˆŒë¦° ìƒíƒœì¼ ë•Œ
+        //  - Input.GetKeyUp   : í‚¤ì—ì„œ ì†ê°€ë½ì„ ë•” ë•Œ, true ë¥¼ ë°˜í™˜ í•©ë‹ˆë‹¤.
+        // ì…ë ¥ê°’ì˜ ì¢…ë¥˜ëŠ” KeyCode ë¥¼ ì‚¬ìš©í•´ì„œ ë°›ì•„ì˜¬ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Launch a projectile form the player
+            // ì¸ìŠ¤í„´ìŠ¤ ìƒì„± ì¦‰, projectilePrefab ì˜ ë³µì‚¬ë³¸ì„ ìƒì„±í•©ë‹ˆë‹¤.
+            // ì¸ì ì„¤ëª…
+            //  - ì›ë³¸ ê°ì²´, ì¢Œí‘œê°’, íšŒì „ê°’
+            Instantiate(projectilePrefab, transform.position, projectilePrefab.transform.rotation);
+        }
     }
 }
