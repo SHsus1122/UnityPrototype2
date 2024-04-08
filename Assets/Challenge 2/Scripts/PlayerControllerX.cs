@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
+    public int hp;
+
+    [SerializeField]
+    private int mp;
+
     public GameObject dogPrefab;
     private Vector3 spawnPos;   // 스폰 시킬 위치 변수
     private float delayCount;   // 발사 시간 체크용 변수

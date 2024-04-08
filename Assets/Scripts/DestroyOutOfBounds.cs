@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 일정 거리 이상 벗어났을 때 오브젝트 삭제를 위한 스크립트입니다.
-// 삭제 되지 않은채로 계속 남아있으면 메모리 관리에 매우 치명적이기에 이를 관리하기 위한 스크립트입니다.
 public class DestroyOutOfBounds : MonoBehaviour
 {
     private float topBound = 30;
@@ -12,22 +10,27 @@ public class DestroyOutOfBounds : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        // z 수치가 30 이상인 즉, 위 방향으로 발사체에 해당하는 오브젝트는 비활성화를 합니다.
         if (transform.position.z > topBound)
         {
-            // Destroy 는 게임 오브젝트 뿐만 아니라 컴포넌트와 에셋도 제거 가능합니다.
-            // gameObject 는 자기 자신 즉, 현재 게임 오브젝트를 의미합니다.
-            Destroy(gameObject);
+            // Instead of destroying the projectile when it leaves the screen
+            //Destroy(gameObject);
+
+            // Just deactivate it
+            gameObject.SetActive(false);
         }
         else if (transform.position.z < lowerBound)
         {
+            // 이 경우에는 z 의 수치가 -10 이하 즉, 아래 방향으로 움직이는 오브젝트는 파괴합니다.
             Debug.Log("Game Over!");
             Destroy(gameObject);
         }
+
     }
 }
